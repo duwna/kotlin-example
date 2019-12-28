@@ -200,9 +200,11 @@ class ExampleUnitTest {
 
     @Test
     fun drop_last_util_test() {
-        println(listOf(1, 2, 3).dropLastUntil { it == 2 })// [1]
-        println("House Nymeros Martell of Sunspear".split(" ")
-            .dropLastUntil { it == "of" })// [House, Nymeros, Martell])
+
+        Assert.assertEquals(listOf(1, 2, 3).dropLastUntil { it == 2 }, listOf(1))
+
+        Assert.assertEquals("House Nymeros Martell of Sunspear".split(" ")
+            .dropLastUntil { it == "of" }, listOf("House", "Nymeros", "Martell"))
 
         val a = listOf<Int>()
         println(a.dropLastUntil { it==3 })

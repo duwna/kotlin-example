@@ -38,14 +38,19 @@ object UserHolder {
         }
     }
 
-    fun importUsers(list: List<String>): List<User> = list.map { it.csvToUser() }
+    fun importUsers(list: List<String>): List<User> =
+        list.map { csvString -> csvString.csvToUser() }
+            .also { usersList ->
+                usersList.forEach { user -> map[user.login] = user }
+            }
+
 
     private fun String.csvToUser(): User {
         val args = split(";").map { it.trim() }
         val fullName = args[0]
-        val email = if(args[1].isNotBlank()) args[1] else null
+        val email = if (args[1].isNotBlank()) args[1] else null
         val (salt, hash) = args[2].split(":")
-        val phone = if(args[3].isNotBlank()) args[3] else null
+        val phone = if (args[3].isNotBlank()) args[3] else null
 
         return User.makeUser(fullName, email, null, phone, salt, hash)
     }
